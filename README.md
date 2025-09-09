@@ -11,10 +11,11 @@
 ## Functions
 ### Repository Search
 - input search keywords to search repositories or topics
+- provide sorting options (best match by default, stars, etc.)
 
 ### Pagination
 - display 30 items per page by default
-- stop pagination at 1000 results and display "No more results can be displayed.".
+- show at most 1000 results
 
 ### Filtering
 - provide language filter checkboxes (e.g., if typescript is checked, `language:typescript` is included in query parameters)
@@ -24,7 +25,6 @@
 ### Search Results Display
 - display repository name, description, stars, forks, issues, language, license
 - show last updated time
-- provide sorting options (best match by default, stars, etc.)
 
 ### Error Handling
 - handle API rate limits (10 requests/minute for unauthenticated)and show error message on the screen

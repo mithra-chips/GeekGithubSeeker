@@ -46,7 +46,7 @@ if [ $result -eq 2 ]; then
     exit 1
 fi
 
-# 查找npm run dev进程（更精确的匹配）
+# find npm run dev process
 dev_pids=$(ps aux | grep -E "npm.*run.*dev|node.*dev" | grep -v grep | awk '{print $2}')
 
 if [ -n "$dev_pids" ]; then
