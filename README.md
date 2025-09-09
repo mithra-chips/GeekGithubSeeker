@@ -7,7 +7,6 @@
 ### Core Features
 - Pagination for large result sets
 - Display Quality indicators (stars, forks, last updated, activity level, etc.)
-- Responsive design for desktop and mobile research
 
 ## Functions
 ### Repository Search
@@ -16,11 +15,12 @@
 
 ### Pagination
 - display 30 items per page by default
-- stop pagination at 1000 results and display "No more results can be displayed."
+- stop pagination at 1000 results and display "No more results can be displayed.".
 
 ### Filtering
 - provide language filter checkboxes (e.g., if typescript is checked, `language:typescript` is included in query parameters)
-- provide star count range filter (e.g., `stars:500..1000`)
+- provide star count, forks,etc. range filter (e.g., `stars:500...1000`)<br />
+※ combine filters using `+` concatenation to avoid complex operators(`+` equals to `AND`)
 
 ### Search Results Display
 - display repository name, description, stars, forks, issues, language, license
