@@ -9,7 +9,8 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,scss,md,json}\"",
-    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix"
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "clean:reinstall": "npm install -g rimraf && rimraf node_modules && npm install"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -41,12 +42,5 @@
     "typescript": "5.8.3",
     "typescript-eslint": "8.39.1",
     "vite": "7.1.2"
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
-      "npm run lint:fix", 
-      "npm run format"
-    ],
-    "src/**/*.{css,scss}": "stylelint --fix --quiet"
   }
 }
