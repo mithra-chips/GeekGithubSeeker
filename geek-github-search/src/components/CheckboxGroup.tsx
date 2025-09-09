@@ -14,7 +14,6 @@ import {
 const keywords = [
     { key: "stars", label: "Stars", type: "number" },
     { key: "forks", label: "Forks", type: "number" },
-    { key: "issues", label: "Issues", type: "number" },
     { key: "archived", label: "Archived", type: "boolean" },
     { key: "mirror", label: "Mirror", type: "boolean" },
     { key: "template", label: "Template", type: "boolean" },
