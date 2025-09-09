@@ -10,8 +10,7 @@
 
 ## Functions
 ### Repository Search
-- input search keywords to search repositories or topics 
-- validate search query length (max 256 characters) and show error on the screen if exceeded
+- input search keywords to search repositories or topics
 
 ### Pagination
 - display 30 items per page by default
@@ -31,6 +30,7 @@
 - handle API rate limits (10 requests/minute for unauthenticated)and show error message on the screen
 - show timeout warnings(`incomplete_results = true`) and suggest narrowing search scope
 - error statuses are retrieved from responses and messages are shown on the screen.
+- validate search query length (max 256 characters) and show error on the screen if exceeded
 
 ### Technical Stack
 - React + TypeScript + Vite for creating 
