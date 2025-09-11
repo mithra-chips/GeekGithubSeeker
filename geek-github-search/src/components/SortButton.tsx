@@ -1,13 +1,11 @@
 import  { useState } from 'react';
 import { Select, MenuItem, FormControl, InputLabel, type SelectChangeEvent } from '@mui/material';
 
-// 定义排序选项的类型
 type SortOption = {
     value: string;
     label: string;
 };
 
-// 组件Props的类型定义
 interface SortButtonProps {
     onSortChange: (sortValue: string) => void;
     initialSort?: string;
@@ -15,12 +13,13 @@ interface SortButtonProps {
 
 // 排序选项列表
 const sortOptions: SortOption[] = [
+    { value: '', label: 'Best Match' },
     { value: 'stars', label: 'Stars' },
     { value: 'forks', label: 'Forks' },
     { value: 'updated', label: 'Recently Updated' },
 ];
 
-const SortButton: React.FC<SortButtonProps> = ({ onSortChange, initialSort = 'stars' }) => {
+const SortButton: React.FC<SortButtonProps> = ({ onSortChange, initialSort = '' }) => {
     const [selectedSort, setSelectedSort] = useState(initialSort);
 
     // 处理选择变化事件

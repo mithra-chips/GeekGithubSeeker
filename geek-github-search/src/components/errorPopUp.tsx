@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import Alert, { type AlertColor } from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
@@ -12,7 +11,7 @@ export interface ErrorObj {
 }
 
 interface ErrorPopupProps {
-    errors: ErrorObj[];
+    error: ErrorObj;
     onClose: () => void;
 }
 
@@ -26,12 +25,12 @@ const getSeverity = (status: string): AlertColor => {
     return 'info'; // Default case
 };
 
-const ErrorPopup: React.FC<ErrorPopupProps> = ({ errors, onClose }) => {
-    const [open, setOpen] = React.useState(errors.length > 0);
+const ErrorPopup: React.FC<ErrorPopupProps> = ({ error, onClose }) => {
+    const [open, setOpen] = React.useState(!!error);
 
     React.useEffect(() => {
-        setOpen(errors.length > 0);
-    }, [errors]);
+        setOpen(!!error);
+    }, [error]);
 
     const handleClose = () => {
         setOpen(false);
@@ -39,7 +38,7 @@ const ErrorPopup: React.FC<ErrorPopupProps> = ({ errors, onClose }) => {
         setTimeout(onClose, 300); 
     };
 
-    if (!errors || errors.length === 0) {
+    if (!error) {
         return null;
     }
 
@@ -50,28 +49,23 @@ const ErrorPopup: React.FC<ErrorPopupProps> = ({ errors, onClose }) => {
             onClose={handleClose}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-            <Stack sx={{ width: '100%' }} spacing={1}>
-                {errors.map((error, index) => (
-                    <Alert
-                        key={index}
-                        severity={getSeverity(error.status)}
-                        variant="filled"
-                        action={
-                            <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="small"
-                                onClick={handleClose}
-                            >
-                                <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                        }
-                        sx={{ mb: 2, alignItems: 'center' }}
+            <Alert
+                severity={getSeverity(error.status)}
+                variant="filled"
+                action={
+                    <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={handleClose}
                     >
-                        {error.message}
-                    </Alert>
-                ))}
-            </Stack>
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+                sx={{ mb: 2, alignItems: 'center' }}
+            >
+                {error.message}
+            </Alert>
         </Snackbar>
     );
 };
