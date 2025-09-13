@@ -16,6 +16,9 @@ interface ErrorPopupProps {
 }
 
 const getSeverity = (status: string): AlertColor => {
+    if(!status){
+        return 'info';
+    }
     if (status.startsWith('4')) {
         return 'warning';
     }

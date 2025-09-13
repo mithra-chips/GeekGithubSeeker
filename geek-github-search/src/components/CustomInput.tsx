@@ -5,7 +5,6 @@ interface CustomInputProps {
     placeholder:SearchType;
     value: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 type SearchType = 'Search Repositories';

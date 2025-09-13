@@ -2,27 +2,11 @@ import React from 'react';
 import { Typography, Box, Chip, Card, CardContent } from '@mui/material';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ForkRightIcon from '@mui/icons-material/ForkRight';
-
-// Define the shape of a repository object based on GitHub API response
-export interface Repo {
-    id: number;
-    full_name: string;
-    html_url: string;
-    description: string | null;
-    stargazers_count: number;
-    forks_count: number;
-    open_issues_count: number;
-    language: string | null;
-    license: {
-        name: string;
-    } | null;
-    updated_at: string;
-    topics: string[];
-}
+import type { RepoItem } from '../store/repository-list-store';
 
 // Define the props for the SingleInfo component
 interface SingleInfoProps {
-    repo: Repo;
+    repo: RepoItem;
 }
 
 const SingleInfo: React.FC<SingleInfoProps> = ({ repo }) => {
@@ -60,39 +44,41 @@ const SingleInfo: React.FC<SingleInfoProps> = ({ repo }) => {
 
                         {/* Topics */}
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-                            {repo.topics.map((topic) => (
-                                <Chip
-                                key={topic}
-                                label={topic}
-                                size="small"
-                                clickable
-                                sx={{ fontSize: '0.75rem' }}
-                                />
-                            ))}
+                            <Typography variant="body2" color="text.secondary">
+                                Topics {repo.topics.map((topic) => (
+                                    <Chip
+                                    key={topic}
+                                    label={topic}
+                                    size="small"
+                                    clickable
+                                    sx={{ fontSize: '0.75rem', m: 0.5 }}
+                                    />
+                                ))}
+                            </Typography>
                         </Box>
 
                         {/* Repository Info */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    Language <Chip label = {repo.language} size="small" sx={{ fontSize: '0.75rem' }}/>
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                <StarBorderIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                                <Typography variant="body2" color="text.secondary">
+                                {repo.stargazers_count}
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                <ForkRightIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                                <Typography variant="body2" color="text.secondary">
+                                {repo.forks_count}
+                                </Typography>
+                            </Box>
                             <Typography variant="body2" color="text.secondary">
-                                {repo.language}
+                                Updated at {new Date(repo.updated_at).toLocaleDateString()}
                             </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                            <StarBorderIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                            <Typography variant="body2" color="text.secondary">
-                            {repo.stargazers_count}
-                            </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                            <ForkRightIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                            <Typography variant="body2" color="text.secondary">
-                            {repo.forks_count}
-                            </Typography>
-                        </Box>
-                        <Typography variant="body2" color="text.secondary">
-                            Updated at {new Date(repo.updated_at).toLocaleDateString()}
-                        </Typography>
                         </Box>
                     </Box>
                 </Box>

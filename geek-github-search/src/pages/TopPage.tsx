@@ -1,31 +1,33 @@
 import { useState } from "react";
-import CheckboxGroup from "../components/CheckboxGroup";
+import CheckboxWithInput from "../components/CheckboxWithInput";
 import CustomInput from "../components/CustomInput";
 import SearchButton from "../components/SearchButton";
-import SortButton from "../components/SortButton";
 import {
   Box,
   Card,
   CardContent,
+  CardHeader,
   Container,
+  FormGroup,
   Grid,
   Typography
 } from '@mui/material';
+import { useRepositoryListStore } from "../store/repository-list-store";
+import { useNavigate } from "react-router";
+import CheckboxWithRadio from "../components/CheckboxWithRadio";
+import { useSearchParamStore } from "../store/search-param-store";
+import { buildQuerySimpler } from "../common/QueryStringBuilder";
 
-const TopPage = ()   => {
+const TopPage = () => {
     const [searchRepoValue, setSearchRepoValue] = useState('');
-    const [sortValue, setSortValue] = useState('');
+    const navigate = useNavigate();
+    const fetchRepoList = useRepositoryListStore((state) => state.fetchList);
+    const keyLabelItems = useSearchParamStore((state) => state.keyLabelItems);
 
     const handleRepoSearch = async (): Promise<void> => {
-    console.log('Searching for:', {
-      repo: searchRepoValue
-    });
-  };
-
-  const handleSortChange = (newSortValue: string) => {
-    setSortValue(newSortValue);
-    console.log('Sort changed to:', sortValue);
-  };
+      await fetchRepoList(buildQuerySimpler(searchRepoValue, keyLabelItems), 1);
+      navigate('/list');
+    };
 
   return (
     <Box
@@ -47,23 +49,36 @@ const TopPage = ()   => {
         </Box>
         <Grid container spacing={3} sx={{ m: 4, xs: 12, sm: 6 }}>
           <Card>
-              <CardContent sx={{ p: 2 }}>
-                  <Box sx={{ mb: 3 }}>
-                      <CustomInput
-                          placeholder={'Search Repositories'}
-                          value={searchRepoValue}
-                          onChange={e => setSearchRepoValue(e.target.value)}
-                      />
-                      <SearchButton onClick={handleRepoSearch}>Search Repositories</SearchButton>
-                  </Box>
-              </CardContent>
+            <CardContent sx={{ p: 2 }}>
+              <Box sx={{ mb: 3 }}>
+                  <CustomInput
+                    placeholder={'Search Repositories'}
+                    value={searchRepoValue}
+                    onChange={e => setSearchRepoValue(e.target.value)}
+                  />
+                  <SearchButton onClick={handleRepoSearch}>Search Repositories</SearchButton>
+              </Box>
+            </CardContent>
           </Card>
         </Grid>
         <Grid sx={{ m: 4, xs: 12, sm: 6 }}>
-          <CheckboxGroup />
-        </Grid>
-        <Grid sx={{ m: 4, xs: 12, sm: 6 }}>
-          <SortButton onSortChange={handleSortChange} />
+          <Card>
+            <CardHeader
+              title={
+                  <Typography variant="h6" component="h3">
+                    Filter Options
+                  </Typography>
+                }
+              />
+              <FormGroup>
+                { Object.entries(keyLabelItems).map(([key, item]) => (
+                  item.type === "number" && (
+                    <CheckboxWithInput key={key} label={key}/>) ||
+                  item.type === "boolean" && (
+                    <CheckboxWithRadio key={key} label={key}/>)
+                    ))}
+              </FormGroup>
+          </Card>
         </Grid>
       </Container>
     </Box>

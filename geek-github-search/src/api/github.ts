@@ -46,11 +46,3 @@ export const searchRepos = async (q: string, page = 1, per_page = 30) => {
   const res = await octokit.rest.search.repos({ q, page, per_page });
   return res.data;
 };
-
-/**
- * Search Topics (single page)
- */
-export const searchTopics = async (q: string, page = 1, per_page = 30) => {
-  const res = await octokit.rest.search.topics({ q, page, per_page });
-  return res.data;
-};
