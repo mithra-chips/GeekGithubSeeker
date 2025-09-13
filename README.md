@@ -10,7 +10,7 @@
 
 ## Functions
 ### Repository Search
-- input search keywords to search repositories or topics
+- input search keywords to search repositories
 - provide sorting options (best match by default, stars, etc.)
 
 ### Pagination

@@ -1,9 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import App from './App.tsx';
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPopUp from './components/ErrorPopUp.tsx';
+import { ThemeProvider } from '@mui/material';
+import { darkTheme } from './style/global.ts';
+import { BrowserRouter } from "react-router";
+import CustomRoutes from './routes.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -12,7 +15,11 @@ createRoot(document.getElementById('root')!).render(
         <ErrorPopUp error={error} onClose={resetErrorBoundary} />
       )}
     >
-      <App />
+    <ThemeProvider theme={darkTheme}>
+      <BrowserRouter>
+        <CustomRoutes />
+      </BrowserRouter>
+    </ThemeProvider>
     </ErrorBoundary>
   </StrictMode>
 );

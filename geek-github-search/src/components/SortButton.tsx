@@ -1,5 +1,5 @@
 import  { useState } from 'react';
-import { Select, MenuItem, FormControl, InputLabel, type SelectChangeEvent } from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel, type SelectChangeEvent, Card, CardHeader, Typography } from '@mui/material';
 
 type SortOption = {
     value: string;
@@ -30,22 +30,31 @@ const SortButton: React.FC<SortButtonProps> = ({ onSortChange, initialSort = '' 
     };
 
     return (
-        <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
-            <InputLabel id="sort-by-label">Sort by</InputLabel>
-            <Select
-                labelId="sort-by-label"
-                id="sort-by-select"
-                value={selectedSort}
-                label="Sort by"
-                onChange={handleSelectChange}
-            >
-                {sortOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
+        <Card>
+            <CardHeader
+                title={
+                <Typography variant="h6" component="h3">
+                    Sort Options
+                </Typography>
+                }
+            />
+            <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                <InputLabel id="sort-by-label">Sort by</InputLabel>
+                <Select
+                    labelId="sort-by-label"
+                    id="sort-by-select"
+                    value={selectedSort}
+                    label="Sort by"
+                    onChange={handleSelectChange}
+                >
+                    {sortOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Card>
     );
 };
 

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import {
     Box,
+    Card,
+    CardContent,
+    CardHeader,
     Checkbox,
     FormControl,
     FormControlLabel,
@@ -16,8 +19,7 @@ const keywords = [
     { key: "forks", label: "Forks", type: "number" },
     { key: "archived", label: "Archived", type: "boolean" },
     { key: "mirror", label: "Mirror", type: "boolean" },
-    { key: "template", label: "Template", type: "boolean" },
-    { key: "topics", label: "Topics", type: "number" },
+    { key: "template", label: "Template", type: "boolean" }
 ];
 
 type NumberValue = { min?: number; max?: number };
@@ -72,64 +74,69 @@ const CheckboxGroup: React.FC = () => {
     };
 
     return (
-        <FormGroup>
-            {keywords.map((item) => (
-                <Box key={item.key} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={!!checked[item.key]}
-                                onChange={() => handleCheckboxChange(item.key)}
+        <Card>
+            <CardHeader
+              title={
+                <Typography variant="h6" component="h3">
+                  Filter Options
+                </Typography>
+              }
+            />
+            <FormGroup>
+                {keywords.map((item) => (
+                    <CardContent key={item.key}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={!!checked[item.key]}
+                                        onChange={() => handleCheckboxChange(item.key)}
+                                    />
+                                }
+                                label={item.label}
+                                sx={{ minWidth: 200 }}
                             />
-                        }
-                        label={item.label}
-                        sx={{ minWidth: 200 }}
-                    />
-                    {checked[item.key] && item.type === "number" && (
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <TextField
-                                type="number"
-                                label="Min"
-                                variant="outlined"
-                                size="small"
-                                value={(values[item.key] as NumberValue)?.min ?? ""}
-                                onChange={(e) => handleNumberChange(item.key, "min", e.target.value)}
-                                sx={{ width: 100 }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                            <Typography sx={{ mx: 1 }}>-</Typography>
-                            <TextField
-                                type="number"
-                                label="Max"
-                                variant="outlined"
-                                size="small"
-                                value={(values[item.key] as NumberValue)?.max ?? ""}
-                                onChange={(e) => handleNumberChange(item.key, "max", e.target.value)}
-                                sx={{ width: 100 }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
+                            {checked[item.key] && item.type === "number" && (
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <TextField
+                                        type="number"
+                                        label="Min"
+                                        variant="outlined"
+                                        size="small"
+                                        value={(values[item.key] as NumberValue)?.min ?? ""}
+                                        onChange={(e) => handleNumberChange(item.key, "min", e.target.value)}
+                                        sx={{ width: 100 }}
+                                    />
+                                    <Typography sx={{ mx: 1 }}>-</Typography>
+                                    <TextField
+                                        type="number"
+                                        label="Max"
+                                        variant="outlined"
+                                        size="small"
+                                        value={(values[item.key] as NumberValue)?.max ?? ""}
+                                        onChange={(e) => handleNumberChange(item.key, "max", e.target.value)}
+                                        sx={{ width: 100 }}
+                                    />
+                                </Box>
+                            )}
+                            {checked[item.key] && item.type === "boolean" && (
+                                <FormControl component="fieldset">
+                                    <RadioGroup
+                                        row
+                                        name={item.key}
+                                        value={String(values[item.key])}
+                                        onChange={(e) => handleBooleanChange(item.key, e.target.value)}
+                                    >
+                                        <FormControlLabel value="true" control={<Radio size="small" />} label="True" />
+                                        <FormControlLabel value="false" control={<Radio size="small" />} label="False" />
+                                    </RadioGroup>
+                                </FormControl>
+                            )}
                         </Box>
-                    )}
-                    {checked[item.key] && item.type === "boolean" && (
-                        <FormControl component="fieldset">
-                            <RadioGroup
-                                row
-                                name={item.key}
-                                value={String(values[item.key])}
-                                onChange={(e) => handleBooleanChange(item.key, e.target.value)}
-                            >
-                                <FormControlLabel value="true" control={<Radio size="small" />} label="True" />
-                                <FormControlLabel value="false" control={<Radio size="small" />} label="False" />
-                            </RadioGroup>
-                        </FormControl>
-                    )}
-                </Box>
-            ))}
-        </FormGroup>
+                    </CardContent>
+                ))}
+            </FormGroup>
+        </Card>
     );
 };
 

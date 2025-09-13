@@ -8,7 +8,12 @@ interface SearchButtonProps {
 
 const SearchButton: React.FC<SearchButtonProps> = ({ onClick, children }) => {
     return (
-        <Button variant="contained" color="primary" onClick={onClick}>
+        <Button
+            fullWidth
+            variant="contained"
+            onClick={onClick}
+            sx={{ mb: 1 }}
+        >
             {children}
         </Button>
     );
