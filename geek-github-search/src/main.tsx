@@ -6,7 +6,7 @@ import ErrorPopUp from './components/ErrorPopUp.tsx';
 import { ThemeProvider } from '@mui/material';
 import { darkTheme } from './style/global.ts';
 import { BrowserRouter } from "react-router";
-import CustomRoutes from './routes.tsx';
+import CustomRoutes from './Routes.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
