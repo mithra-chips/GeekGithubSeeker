@@ -15,11 +15,12 @@ createRoot(document.getElementById('root')!).render(
         <ErrorPopUp error={error} onClose={resetErrorBoundary} />
       )}
     >
-    <ThemeProvider theme={darkTheme}>
-      <BrowserRouter>
-        <CustomRoutes />
-      </BrowserRouter>
-    </ThemeProvider>
+      <ThemeProvider theme={darkTheme}>
+        {/* use browser route to allow backup events and reflect on web URLs*/}
+        <BrowserRouter>
+          <CustomRoutes />
+        </BrowserRouter>
+      </ThemeProvider>
     </ErrorBoundary>
   </StrictMode>
 );

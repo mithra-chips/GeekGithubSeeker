@@ -1,10 +1,12 @@
 import { create } from 'zustand'
 
 type State = {
+  searchRepoValue: string,
   keyLabelItems: {[key: string]: KeyLabelItem}
 }
 
 type Actions = {
+  updateSearchRepoValue: (value: string) => void,
   updateCheckedValue: (key: string) => void,
   updateInputValues: (key: string, values: { min?: number; max?: number } | boolean | undefined) => void
 }
@@ -26,6 +28,8 @@ export interface KeyLabelItem {
 
 // Store for checkbox and input values
 export const useSearchParamStore = create<State & Actions>((set) => ({
+  searchRepoValue: '',
+  updateSearchRepoValue: (value: string) => set({ searchRepoValue: value }),
   keyLabelItems: {...keywords},
   updateCheckedValue: (key: string) =>
     set((state) => ({

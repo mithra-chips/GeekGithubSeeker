@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CheckboxWithInput from "../components/CheckboxWithInput";
 import CustomInput from "../components/CustomInput";
 import SearchButton from "../components/SearchButton";
@@ -19,14 +18,16 @@ import { useSearchParamStore } from "../store/search-param-store";
 import { buildQuerySimpler } from "../common/QueryStringBuilder";
 
 const TopPage = () => {
-    const [searchRepoValue, setSearchRepoValue] = useState('');
-    const navigate = useNavigate();
+    // State and Hooks
     const fetchRepoList = useRepositoryListStore((state) => state.fetchList);
     const keyLabelItems = useSearchParamStore((state) => state.keyLabelItems);
+    const searchRepoValue = useSearchParamStore((state) => state.searchRepoValue);
+    const setSearchRepoValue = useSearchParamStore((state) => state.updateSearchRepoValue);
+    const navigate = useNavigate();
 
     const handleRepoSearch = async (): Promise<void> => {
       await fetchRepoList(buildQuerySimpler(searchRepoValue, keyLabelItems), 1);
-      navigate('/list');
+      navigate('/list?page=1');
     };
 
   return (

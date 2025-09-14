@@ -13,7 +13,7 @@ octokit.hook.wrap('request', async (request, options) => {
     const response = await request(options) as any;
 
     if (response.status === 200 && response.incomplete_results) {
-      throw { status: 200, message: 'Incomplete results - narrow the search scope or wait for better network status.', errors: [] };
+      throw { status: 200, message: 'Incomplete results - narrow the search scope or wait for better network status.' };
     }
 
     return response;
@@ -30,12 +30,12 @@ octokit.hook.wrap('request', async (request, options) => {
             const message = remaining > 0
               ? `API rate limit exceeded. Please wait ${remaining} seconds and try again.`
               : 'API rate limit exceeded. Please try again later.';
-            throw { status: 403, message, errors: error.errors || [] };
+            throw { status: 403, message };
           }
         }
       }
       // reject promise
-      throw error;
+      throw { status: error.status, message: error.message || 'An error occurred' };
     }
   });
 

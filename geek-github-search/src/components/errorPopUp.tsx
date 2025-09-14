@@ -7,7 +7,6 @@ import CloseIcon from '@mui/icons-material/Close';
 export interface ErrorObj {
     message: string;
     status: string;
-    errors: string[];
 }
 
 interface ErrorPopupProps {

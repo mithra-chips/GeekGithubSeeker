@@ -1,4 +1,4 @@
-// Builder模式实现查询字符串构建
+// use builder pattern to build query string step by step
 
 import type { KeyLabelItem } from "../store/search-param-store";
 
@@ -49,8 +49,8 @@ class QueryStringBuilder {
   }
 }
 
-export const buildQuerySimpler = (searchRepoValue: string, keyLabelItems: {[key: string] : KeyLabelItem}): string => {
-    const builder = new QueryStringBuilder(searchRepoValue);
+export const buildQuerySimpler = (initialString: string, keyLabelItems: {[key: string] : KeyLabelItem}): string => {
+    const builder = new QueryStringBuilder(initialString);
 
     ['stars', 'forks'].forEach(key => {
         const item = keyLabelItems[key];

@@ -3,8 +3,6 @@ import { Typography, Box, Chip, Card, CardContent } from '@mui/material';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ForkRightIcon from '@mui/icons-material/ForkRight';
 import type { RepoItem } from '../store/repository-list-store';
-
-// Define the props for the SingleInfo component
 interface SingleInfoProps {
     repo: RepoItem;
 }
@@ -45,7 +43,9 @@ const SingleInfo: React.FC<SingleInfoProps> = ({ repo }) => {
                         {/* Topics */}
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
                             <Typography variant="body2" color="text.secondary">
-                                Topics {repo.topics.map((topic) => (
+                                Topics
+                            </Typography>
+                             {repo.topics.map((topic) => (
                                     <Chip
                                     key={topic}
                                     label={topic}
@@ -54,15 +54,15 @@ const SingleInfo: React.FC<SingleInfoProps> = ({ repo }) => {
                                     sx={{ fontSize: '0.75rem', m: 0.5 }}
                                     />
                                 ))}
-                            </Typography>
                         </Box>
 
                         {/* Repository Info */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <Typography variant="body2" color="text.secondary">
-                                    Language <Chip label = {repo.language} size="small" sx={{ fontSize: '0.75rem' }}/>
+                                    Language
                                 </Typography>
+                                 <Chip label = {repo.language} size="small" sx={{ fontSize: '0.75rem' }}/>
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <StarBorderIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
