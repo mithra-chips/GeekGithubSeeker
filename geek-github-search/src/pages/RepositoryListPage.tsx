@@ -66,7 +66,7 @@ const RepositoryListPage = () => {
       <Stack spacing={2} sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
         <Pagination
             page={page}
-            count={Math.floor(totalCount / 30)}
+            count={Math.ceil(totalCount / 30)}
             onChange={pageChanged}
             renderItem={(item) => (
               <PaginationItem

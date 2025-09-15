@@ -14,20 +14,15 @@ interface ErrorPopupProps {
     afterErrorShown?: () => void;
 }
 
-const ErrorPopup: React.FC<ErrorPopupProps> = ({ error, afterErrorShown }) => {
+const ErrorPopup: React.FC<ErrorPopupProps> = ({ error }) => {
     const [open, setOpen] = React.useState(!!error);
 
     React.useEffect(() => {
         setOpen(!!error);
-        if (!!error && afterErrorShown) {
-            afterErrorShown();
-        }
     }, [error]);
 
     const handleClose = () => {
         setOpen(false);
-
-        afterErrorShown && afterErrorShown();
     };
 
     if (!error) {
@@ -37,7 +32,7 @@ const ErrorPopup: React.FC<ErrorPopupProps> = ({ error, afterErrorShown }) => {
     return (
         <Snackbar
             open={open}
-            autoHideDuration={6000}
+            autoHideDuration={3000}
             onClose={handleClose}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
