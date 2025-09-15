@@ -18,9 +18,13 @@ const SingleInfo: React.FC<SingleInfoProps> = ({ repo }) => {
                             <Typography
                                 variant="h6"
                                 component="a"
-                                href={repo.html_url}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    window.open(repo.html_url, '_blank');
+                                }}
+                                href='#'
                                 sx={{
-                                color: 'info.main',
+                                color: 'success.main',
                                 textDecoration: 'none',
                                 '&:hover': {
                                     textDecoration: 'underline',
@@ -41,7 +45,7 @@ const SingleInfo: React.FC<SingleInfoProps> = ({ repo }) => {
                         </Typography>
 
                         {/* Topics */}
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                             <Typography variant="body2" color="text.secondary">
                                 Topics
                             </Typography>
@@ -50,7 +54,6 @@ const SingleInfo: React.FC<SingleInfoProps> = ({ repo }) => {
                                     key={topic}
                                     label={topic}
                                     size="small"
-                                    clickable
                                     sx={{ fontSize: '0.75rem', m: 0.5 }}
                                     />
                                 ))}

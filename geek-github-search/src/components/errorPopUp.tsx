@@ -6,38 +6,28 @@ import CloseIcon from '@mui/icons-material/Close';
 
 export interface ErrorObj {
     message: string;
-    status: string;
+    status: AlertColor;
 }
 
 interface ErrorPopupProps {
     error: ErrorObj;
-    onClose: () => void;
+    afterErrorShown?: () => void;
 }
 
-const getSeverity = (status: string): AlertColor => {
-    if(!status){
-        return 'info';
-    }
-    if (status.startsWith('4')) {
-        return 'warning';
-    }
-    if (status.startsWith('5')) {
-        return 'error';
-    }
-    return 'info'; // Default case
-};
-
-const ErrorPopup: React.FC<ErrorPopupProps> = ({ error, onClose }) => {
+const ErrorPopup: React.FC<ErrorPopupProps> = ({ error, afterErrorShown }) => {
     const [open, setOpen] = React.useState(!!error);
 
     React.useEffect(() => {
         setOpen(!!error);
+        if (!!error && afterErrorShown) {
+            afterErrorShown();
+        }
     }, [error]);
 
     const handleClose = () => {
         setOpen(false);
-        // Call the parent's onClose after the transition is complete
-        setTimeout(onClose, 300); 
+
+        afterErrorShown && afterErrorShown();
     };
 
     if (!error) {
@@ -52,7 +42,7 @@ const ErrorPopup: React.FC<ErrorPopupProps> = ({ error, onClose }) => {
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
             <Alert
-                severity={getSeverity(error.status)}
+                severity={error.status}
                 variant="filled"
                 action={
                     <IconButton

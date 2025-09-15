@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 type State = {
   searchRepoValue: string,
@@ -27,25 +28,27 @@ export interface KeyLabelItem {
 }
 
 // Store for checkbox and input values
-export const useSearchParamStore = create<State & Actions>((set) => ({
-  searchRepoValue: '',
-  updateSearchRepoValue: (value: string) => set({ searchRepoValue: value }),
-  keyLabelItems: {...keywords},
-  updateCheckedValue: (key: string) =>
-    set((state) => ({
-      keyLabelItems: {
-        ...state.keyLabelItems,
-        [key]: {
-          ...state.keyLabelItems[key],
-          checked: !state.keyLabelItems[key].checked,
-        },
-      },
-    })),
-  updateInputValues: (key, values) =>
-    set((state) => ({
-      keyLabelItems: {
-        ...state.keyLabelItems,
-        [key]: { ...state.keyLabelItems[key], values },
-      },
-    })),
-}));
+export const useSearchParamStore = create<State & Actions>(
+    (set) => ({
+      searchRepoValue: '',
+      updateSearchRepoValue: (value: string) => set({ searchRepoValue: value }),
+      keyLabelItems: { ...keywords },
+      updateCheckedValue: (key: string) =>
+        set((state) => ({
+          keyLabelItems: {
+            ...state.keyLabelItems,
+            [key]: {
+              ...state.keyLabelItems[key],
+              checked: !state.keyLabelItems[key].checked,
+            },
+          },
+        })),
+      updateInputValues: (key, values) =>
+        set((state) => ({
+          keyLabelItems: {
+            ...state.keyLabelItems,
+            [key]: { ...state.keyLabelItems[key], values },
+          },
+        })),
+    })
+);

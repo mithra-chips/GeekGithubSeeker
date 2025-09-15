@@ -16,17 +16,22 @@ import { useNavigate } from "react-router";
 import CheckboxWithRadio from "../components/CheckboxWithRadio";
 import { useSearchParamStore } from "../store/search-param-store";
 import { buildQuerySimpler } from "../common/QueryStringBuilder";
+import Loading from "../components/Loading";
+import { useApiHook } from "../api/api-hook";
+import ErrorPopUp from "../components/ErrorPopUp";
 
 const TopPage = () => {
     // State and Hooks
     const fetchRepoList = useRepositoryListStore((state) => state.fetchList);
+    const isLoading = useRepositoryListStore((state) => state.loading);
     const keyLabelItems = useSearchParamStore((state) => state.keyLabelItems);
     const searchRepoValue = useSearchParamStore((state) => state.searchRepoValue);
     const setSearchRepoValue = useSearchParamStore((state) => state.updateSearchRepoValue);
     const navigate = useNavigate();
+    const { callApi, error } = useApiHook();
 
     const handleRepoSearch = async (): Promise<void> => {
-      await fetchRepoList(buildQuerySimpler(searchRepoValue, keyLabelItems), 1);
+      await callApi(fetchRepoList(buildQuerySimpler(searchRepoValue, keyLabelItems), 1));
       navigate('/list?page=1');
     };
 
@@ -39,6 +44,8 @@ const TopPage = () => {
         py: 6,
       }}
       >
+      {isLoading && <Loading />}
+      {error && <ErrorPopUp error={error}  />}
       <Container maxWidth="lg">
         <Box sx={{ mb: 4, textAlign: 'center' }}>
           <Typography variant="h2" component="h1" sx={{ mb: 2, fontWeight: 600 }}>
@@ -57,7 +64,7 @@ const TopPage = () => {
                     value={searchRepoValue}
                     onChange={e => setSearchRepoValue(e.target.value)}
                   />
-                  <SearchButton onClick={handleRepoSearch}>Search Repositories</SearchButton>
+                  <SearchButton onClick={handleRepoSearch} disabled = {!searchRepoValue}>Search Repositories</SearchButton>
               </Box>
             </CardContent>
           </Card>

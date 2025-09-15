@@ -39,11 +39,7 @@ export const darkTheme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          backgroundColor: '#1f6feb',
-          color: '#ffffff',
-          '&:hover': {
-            backgroundColor: '#1a5cd8',
-          },
+          color: '#ffffff'
         },
       },
     },

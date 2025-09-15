@@ -14,7 +14,6 @@ const CustomInput: React.FC<CustomInputProps> = ({ placeholder, value, onChange 
         <TextField
             sx={{ mb: 2 }}
             fullWidth
-            variant="outlined"
             placeholder={placeholder}
             value={value}
             onChange={onChange}

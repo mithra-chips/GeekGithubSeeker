@@ -6,7 +6,7 @@
 
 ### Core Features
 - Pagination for large result sets
-- Display Quality indicators (stars, forks, last updated, activity level, etc.)
+- Display Quality indicators (stars, forks, last updated, etc.)
 
 ## Functions
 ### Repository Search

@@ -2,7 +2,9 @@ import { create } from 'zustand'
 import { searchRepos } from '../api/github'
 
 type State = {
-  list: RepoItem[]
+  list: RepoItem[],
+  loading: boolean
+  totalCount: number
 }
 
 type Actions = {
@@ -27,10 +29,18 @@ export interface RepoItem {
 
 export const useRepositoryListStore = create<State & Actions>((set) => ({
   list: [],
+  totalCount: 0,
+  loading: false,
   fetchList: async (queryString: string, page: number) => {
-      const data = await searchRepos(queryString, page);
-      const items = data.items.map((item) => ({ ...item, topics: item.topics ?? [] }));
-      set({ list: items as RepoItem[] })
+      set({ loading: true })
+      try{
+        const data = await searchRepos(queryString, page);
+        const items = data.items.map((item) => ({ ...item, topics: item.topics ?? [] }));
+        set({ list: items as RepoItem[]})
+        set({ totalCount: data.total_count })
+      }finally{
+        set({ loading: false })
+      }
   },
 }))
 

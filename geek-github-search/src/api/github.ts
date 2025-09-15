@@ -1,5 +1,6 @@
 import { Octokit } from '@octokit/rest';
 import { paginateRest } from '@octokit/plugin-paginate-rest';
+import type { AlertColor } from '@mui/material';
 
 const OctokitWithPaginate = Octokit.plugin(paginateRest);
 const octokit = new OctokitWithPaginate({
@@ -8,19 +9,31 @@ const octokit = new OctokitWithPaginate({
 
 // a global request hook to handle errors
 octokit.hook.wrap('request', async (request, options) => {
+  const getSeverity = (status: string): AlertColor => {
+    if(!status)
+      return 'info';
+    if (status.startsWith('4')) {
+      return 'warning';
+    }
+    if (status.startsWith('5')) {
+      return 'error';
+    }
+    return 'info';
+  };
+  
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await request(options) as any;
 
     if (response.status === 200 && response.incomplete_results) {
-      throw { status: 200, message: 'Incomplete results - narrow the search scope or wait for better network status.' };
+      throw { status: '200', message: 'Incomplete results. Narrow the search scope or wait for better network status.' };
     }
 
     return response;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     // (status 4xx-5xx)
-    if (error.status) {
+    if (error?.status) {
       switch (error.status) {
         case 403:
           {
@@ -30,14 +43,16 @@ octokit.hook.wrap('request', async (request, options) => {
             const message = remaining > 0
               ? `API rate limit exceeded. Please wait ${remaining} seconds and try again.`
               : 'API rate limit exceeded. Please try again later.';
-            throw { status: 403, message };
+            throw { status: 'warning', message };
           }
+        default:
+          throw { status: getSeverity(String(error.status)), message: error.message || 'An error occurred' };
         }
       }
       // reject promise
-      throw { status: error.status, message: error.message || 'An error occurred' };
-    }
-  });
+      throw error;
+  }
+});
 
 /**
  * Search repositories (single page)
